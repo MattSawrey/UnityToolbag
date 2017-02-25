@@ -2,15 +2,21 @@
 
 public static class MyVector3Functions
 {
-	public static Vector3 RotateVector3AroundPivot(this Vector3 currentPosition, Vector3 rotationPivot, Quaternion rotationAngle)
+    /// <summary>
+    /// Rotates a point around a pivot in 3D. Rotate around the y and z axis for an orbital effect.
+    /// </summary>
+    /// <param name="point">The point to be rotated</param>
+    /// <param name="pivot">The pivot around which to rotate</param>
+    /// <param name="angle">The angle of rotation</param>
+    /// <returns></returns>
+	public static Vector3 RotateAroundPivot(this Vector3 point, Vector3 pivot, Quaternion angle)
 	{
-		Vector3 result = rotationAngle * (currentPosition - rotationPivot) + rotationPivot;
-		return result;
-	}
+        return angle * (point - pivot) + pivot;
+    }
 
-	public static Vector3 RotateVector3AroundPivot(this Vector3 currentPosition, Vector3 rotationPivot, Vector3 eulerAngle)
-	{
-		return RotateVector3AroundPivot(currentPosition, rotationPivot, Quaternion.Euler(eulerAngle));
-	}
+    public static Vector2 ToVector2(this Vector3 vector)
+    {
+        return new Vector2(vector.x, vector.y);
+    }
 }
 
