@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 
-public static class MyStringFunctions 
+public static class StringExtensions
 {
 	public static string RemoveSpacesFromString(this string text)
 	{

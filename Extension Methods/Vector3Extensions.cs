@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class MyVector3Functions
+public static class Vector3Extensions
 {
     /// <summary>
     /// Rotates a point around a pivot in 3D.

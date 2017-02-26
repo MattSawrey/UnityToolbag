@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class MyFloatFunctions 
+public static class FloatExtensions 
 {
 	public static float ConvertToRange(this float oldValue, float oldMin, float oldMax,
 	                                         float newMin, float newMax)

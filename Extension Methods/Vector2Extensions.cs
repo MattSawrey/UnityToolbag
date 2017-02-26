@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class Vector2ExtensionMethods
+public static class Vector2Extensions
 {
     /// <summary>
     /// Rotates around the z axis in 2D.
