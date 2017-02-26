@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class MyLayermaskFunctions
+public static class LayermaskExtensions
 {
 	public static int LayerNumber (this LayerMask layerMask)
 	{
