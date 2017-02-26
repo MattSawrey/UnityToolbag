@@ -3,7 +3,7 @@
 public static class MyVector3Functions
 {
     /// <summary>
-    /// Rotates a point around a pivot in 3D. Rotate around the y and z axis for an orbital effect.
+    /// Rotates a point around a pivot in 3D.
     /// </summary>
     /// <param name="point">The point to be rotated</param>
     /// <param name="pivot">The pivot around which to rotate</param>
