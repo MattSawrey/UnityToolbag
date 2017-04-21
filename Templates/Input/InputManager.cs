@@ -10,6 +10,9 @@ public class InputManager : Singleton<InputManager>
     public Vector2 leftJoystickInputValue { get; private set; }
     public Vector2 rightJoystickInputValue { get; private set; }
 
+    public float leftJoystickInputAngle { get; private set; }
+    public float rightJoystickInputAngle { get; private set; }
+
     public bool isScreenPressed { get; private set; }
 
     //Key
@@ -112,10 +115,18 @@ public class InputManager : Singleton<InputManager>
         leftJoystickInputValue = new Vector2(Input.GetAxis("Joy1_Horiz"), Input.GetAxis("Joy1_Vert"));
         rightJoystickInputValue = new Vector2(Input.GetAxis("Joy2_Horiz"), Input.GetAxis("Joy2_Vert"));
 
+        leftJoystickInputAngle = Vector2.zero.AngleToInDegrees(leftJoystickInputValue);
+        rightJoystickInputAngle = Vector2.zero.AngleToInDegrees(rightJoystickInputValue);
+            
+        #endregion
+    }
+
+    void Update()
+    {
         if (Input.GetButtonDown("a"))
-            aButtonPressed();           
+            aButtonPressed();
         if (Input.GetButtonDown("b"))
-            bButtonPressed();       
+            bButtonPressed();
         if (Input.GetButtonDown("x"))
             xButtonPressed();
         if (Input.GetButtonDown("y"))
@@ -132,7 +143,5 @@ public class InputManager : Singleton<InputManager>
             lsButtonPressed();
         if (Input.GetButtonDown("rs"))
             rsButtonPressed();
-            
-        #endregion
     }
 }

@@ -26,4 +26,14 @@ public static class Vector2Extensions
     {
         return new Vector3(vector.x, vector.y, z);
     }
+
+    public static float AngleToVectorInRads(this Vector2 vector, Vector2 vectorTo)
+    {
+        return Mathf.Atan2(vectorTo.y - vector.y, vectorTo.x - vector.x);
+    }
+
+    public static float AngleToInDegrees(this Vector2 vector, Vector2 vectorTo)
+    {
+        return (AngleToVectorInRads(vector, vectorTo) * 180 / Mathf.PI) + 180;
+    }
 }
