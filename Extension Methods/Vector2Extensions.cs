@@ -36,4 +36,12 @@ public static class Vector2Extensions
     {
         return (AngleToVectorInRads(vector, vectorTo) * 180 / Mathf.PI) + 180;
     }
+
+    public static Vector2 FindMidPointOfCollection(this Vector2[] vectors)
+    {
+        Vector2 sumOfVectors = Vector2.zero;
+        for (int i = 0; i < vectors.Length; i++)
+            sumOfVectors += vectors[i];
+        return sumOfVectors / vectors.Length;
+    }
 }
