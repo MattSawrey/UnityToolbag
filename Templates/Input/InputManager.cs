@@ -35,16 +35,34 @@ public class InputManager : Singleton<InputManager>
     public static event InputManagement leftJoystickStoppedActive = delegate { };
     public static event InputManagement leftJoystickNotActive = delegate { };
     private bool isLeftJoystickActive = false;
+    public static event InputManagement leftJoystickUpPressed = delegate { };
+    public static event InputManagement leftJoystickDownPressed = delegate { };
+    public static event InputManagement leftJoystickLeftPressed = delegate { };
+    public static event InputManagement leftJoystickRightPressed = delegate { };
 
     public static event InputManagement rightJoystickActive = delegate { };
     public static event InputManagement rightJoystickStoppedActive = delegate { };
     public static event InputManagement rightJoystickNotActive = delegate { };
     private bool isRightJoystickActive = false;
 
+    private Vector2 previousLeftJoystickInputValue;
     public Vector2 leftJoystickInputValue { get; private set; }
     public Vector2 rightJoystickInputValue { get; private set; }
     public float leftJoystickInputAngle { get; private set; }
     public float rightJoystickInputAngle { get; private set; }
+
+    //Gamepad - Dpad
+    private Vector2 previousDpadInput;
+    public Vector2 dPadInput { get; private set; }
+    public static event InputManagement dpadActive = delegate { };
+    public static event InputManagement dpadStoppedActive = delegate { };
+    public static event InputManagement dpadNotActive = delegate { };
+    private bool isDpadActive = false;
+
+    public static event InputManagement dpadDownPressed = delegate { };
+    public static event InputManagement dpadUpPressed = delegate { };
+    public static event InputManagement dpadLeftPressed = delegate { };
+    public static event InputManagement dpadRightPressed = delegate { };
 
     //Gamepad - Triggers
     public static event InputManagement leftTriggerActive = delegate { };
@@ -65,17 +83,16 @@ public class InputManager : Singleton<InputManager>
     public static event InputManagement lsButtonPressed = delegate { };
     public static event InputManagement rsButtonPressed = delegate { };
 
-    //Gamepad - Dpad
-    public Vector2 dPadInput { get; private set; }
-    public static event InputManagement dpadActive = delegate { };
-    public static event InputManagement dpadStoppedActive = delegate { };
-    public static event InputManagement dpadNotActive = delegate { };
-    private bool isDpadActive = false;
-
-    public static event InputManagement dpadDownPressed = delegate { };
-    public static event InputManagement dpadUpPressed = delegate { };
-    public static event InputManagement dpadLeftPressed = delegate { };
-    public static event InputManagement dpadRightPressed = delegate { };
+    public static event InputManagement aButtonUp = delegate { };
+    public static event InputManagement bButtonUp = delegate { };
+    public static event InputManagement xButtonUp = delegate { };
+    public static event InputManagement yButtonUp = delegate { };
+    public static event InputManagement lbButtonUp = delegate { };
+    public static event InputManagement rbButtonUp = delegate { };
+    public static event InputManagement backButtonUp = delegate { };
+    public static event InputManagement startButtonUp = delegate { };
+    public static event InputManagement lsButtonUp = delegate { };
+    public static event InputManagement rsButtonUp = delegate { };
 
     #endregion
 
@@ -110,101 +127,134 @@ public class InputManager : Singleton<InputManager>
     private void DebugInputs()
     {
         //Gamepad Input
-        InputManager.aButtonPressed += DebugAButton;
-        InputManager.bButtonPressed += DebugBButton;
-        InputManager.xButtonPressed += DebugXButton;
-        InputManager.yButtonPressed += DebugYButton;
-        InputManager.rbButtonPressed += DebugRButton;
-        InputManager.lbButtonPressed += DebugLButton;
-        InputManager.lsButtonPressed += DebugLSButton;
-        InputManager.rsButtonPressed += DebugRSButton;
-        InputManager.startButtonPressed += DebugStartButton;
-        InputManager.backButtonPressed += DebugBackButton;
-        InputManager.leftJoystickActive += DebugLeftJoystick;
-        InputManager.rightJoystickActive += DebugRightJoystick;
-        InputManager.leftTriggerActive += DebugLeftTrigger;
-        InputManager.rightTriggerActive += DebugRightTrigger;
-        InputManager.dpadActive += DebugDpad;
+        aButtonPressed += () => Debug.Log("A Button Pressed");
+        bButtonPressed += () => Debug.Log("B Button Pressed");
+        xButtonPressed += () => Debug.Log("X Button Pressed");
+        yButtonPressed += () => Debug.Log("Y Button Pressed");
+        rbButtonPressed += () => Debug.Log("R Button Pressed");
+        lbButtonPressed += () => Debug.Log("L Button Pressed");
+        lsButtonPressed += () => Debug.Log("L Stick Pressed");
+        rsButtonPressed += () => Debug.Log("R Stick Pressed");
+        startButtonPressed += () => Debug.Log("Start Button Pressed");
+        backButtonPressed += () => Debug.Log("Back Button Pressed");
+        leftJoystickActive += () => Debug.Log("Left Joystick: Input- " + leftJoystickInputValue + ", Angle- " + leftJoystickInputAngle);
+        rightJoystickActive += () => Debug.Log("Right Joystick: Input- " + rightJoystickInputValue + ", Angle- " + rightJoystickInputAngle);
+        leftTriggerActive += () => Debug.Log("Left Trigger Input: " + leftTriggerInputValue);
+        rightTriggerActive += () => Debug.Log("Right Trigger Input: " + rightTriggerInputValue);
+        dpadActive += () => Debug.Log("Dpad Input: " + dPadInput);
+        leftJoystickUpPressed += () => Debug.Log("Up Joystick Left");
+        leftJoystickDownPressed += () => Debug.Log("Down Joystick Left");
+        leftJoystickLeftPressed += () => Debug.Log("Left Joystick Left");
+        leftJoystickRightPressed += () => Debug.Log("Right Joystick Left");
     }
 
-    #region - Gamepad
-
-    private void DebugLeftJoystick()
+    private void ProcessJoystickDpadTriggers()
     {
-        Debug.Log("Left Joystick: Input- " + leftJoystickInputValue + ", Angle- " + leftJoystickInputAngle);
-    }
+        #region - Gamepad Joystick, Dpad and Triggers
 
-    private void DebugRightJoystick()
-    {
-        Debug.Log("Right Joystick: Input- " + rightJoystickInputValue + ", Angle- " + rightJoystickInputAngle);
-    }
+        //Dpad Buttons
+        dPadInput = new Vector2(Input.GetAxis("dpad_X"), Input.GetAxis("dpad_Y"));
 
-    private void DebugLeftTrigger()
-    {
-        Debug.Log("Left Trigger Input: " + leftTriggerInputValue);
-    }
+        if (previousDpadInput == Vector2.zero)
+        {
+            if (dPadInput.y > 0f)
+                dpadUpPressed();
+            if (dPadInput.y < 0f)
+                dpadDownPressed();
+            if (dPadInput.x < 0f)
+                dpadLeftPressed();
+            if (dPadInput.x > 0f)
+                dpadRightPressed();
+        }
 
-    private void DebugRightTrigger()
-    {
-        Debug.Log("Right Trigger Input: " + rightTriggerInputValue);
-    }
+        if (dPadInput != Vector2.zero)
+        {
+            dpadActive();
+            if (!isDpadActive)
+                isDpadActive = true;
+        }
+        else
+        {
+            if (isDpadActive)
+            {
+                dpadStoppedActive();
+                isDpadActive = false;
+            }
+            else
+                dpadNotActive();
+        }
 
-    private void DebugAButton()
-    {
-        Debug.Log("A Button Pressed");
-    }
+        previousDpadInput = dPadInput;
 
-    private void DebugBButton()
-    {
-        Debug.Log("B Button Pressed");
-    }
+        //Joysticks
+        leftJoystickInputValue = new Vector2(Input.GetAxis("Joy_Left_X"), Input.GetAxis("Joy_Left_Y"));
+        rightJoystickInputValue = new Vector2(Input.GetAxis("Joy_Right_X"), Input.GetAxis("Joy_Right_X"));
 
-    private void DebugXButton()
-    {
-        Debug.Log("X Button Pressed");
-    }
+        leftJoystickInputAngle = Vector2.zero.AngleToInDegrees(leftJoystickInputValue);
+        rightJoystickInputAngle = Vector2.zero.AngleToInDegrees(rightJoystickInputValue);
 
-    private void DebugYButton()
-    {
-        Debug.Log("Y Button Pressed");
-    }
+        //Left Joystick Events
+        if (leftJoystickInputValue.magnitude > joystickDetectionLimit)
+        {
+            leftJoystickActive();
+            if (!isLeftJoystickActive)
+                isLeftJoystickActive = true;
 
-    private void DebugLButton()
-    {
-        Debug.Log("L Button Pressed");
-    }
+            if (previousLeftJoystickInputValue == Vector2.zero)
+            {
+                if (leftJoystickInputValue.y > joystickDetectionLimit)
+                    leftJoystickUpPressed();
+                if (leftJoystickInputValue.y < -joystickDetectionLimit)
+                    leftJoystickDownPressed();
+                if (leftJoystickInputValue.x < -joystickDetectionLimit)
+                    leftJoystickLeftPressed();
+                if (leftJoystickInputValue.x > joystickDetectionLimit)
+                    leftJoystickRightPressed();
+            }
+            previousLeftJoystickInputValue = leftJoystickInputValue;
+        }
+        else
+        {
+            if (isLeftJoystickActive)
+            {
+                leftJoystickStoppedActive();
+                isLeftJoystickActive = false;
+            }
+            else
+                leftJoystickNotActive();
 
-    private void DebugRButton()
-    {
-        Debug.Log("R Button Pressed");
-    }
+            previousLeftJoystickInputValue = Vector2.zero;
+        }
 
-    private void DebugLSButton()
-    {
-        Debug.Log("L Stick Pressed");
-    }
+        //Right Joystick Events
+        if (rightJoystickInputValue.magnitude > joystickDetectionLimit)
+        {
+            rightJoystickActive();
+            if (!isRightJoystickActive)
+                isRightJoystickActive = true;
+        }
+        else
+        {
+            if (isRightJoystickActive)
+            {
+                rightJoystickStoppedActive();
+                isRightJoystickActive = false;
+            }
+            else
+                rightJoystickNotActive();
+        }
 
-    private void DebugRSButton()
-    {
-        Debug.Log("R Stick Pressed");
-    }
+        //Triggers
+        leftTriggerInputValue = Input.GetAxis("lt");
+        rightTriggerInputValue = Input.GetAxis("rt");
 
-    private void DebugStartButton()
-    {
-        Debug.Log("Start Button Pressed");
-    }
+        if (leftTriggerInputValue != 0)
+            leftTriggerActive();
+        if (rightTriggerInputValue != 0)
+            rightTriggerActive();
 
-    private void DebugBackButton()
-    {
-        Debug.Log("Back Button Pressed");
+        #endregion
     }
-
-    private void DebugDpad()
-    {
-        Debug.Log("Dpad Input: " + dPadInput);
-    }
-
-    #endregion
 
     #endregion
 
@@ -306,94 +356,16 @@ public class InputManager : Singleton<InputManager>
 
         #endregion
 
-        #region - Gamepad Joystick, Dpad and Triggers
-
-        //Dpad Buttons
-        dPadInput = new Vector2(Input.GetAxis("dpad_X"), Input.GetAxis("dpad_Y"));
-
-        if (dPadInput.y > 0f)
-            dpadUpPressed();
-        if (dPadInput.y < 0f)
-            dpadDownPressed();
-        if (dPadInput.x < 0f)
-            dpadLeftPressed();
-        if (dPadInput.x > 0f)
-            dpadLeftPressed();
-
-        if (dPadInput != Vector2.zero)
-        {
-            dpadActive();
-            if (!isDpadActive)
-                isDpadActive = true;
-        }
-        else
-        {
-            if (isDpadActive)
-            {
-                dpadStoppedActive();
-                isDpadActive = false;
-            }
-            else
-                dpadNotActive();
-        }
-
-        //Joysticks
-        leftJoystickInputValue = new Vector2(Input.GetAxis("Joy_Left_X"), Input.GetAxis("Joy_Left_Y"));
-        rightJoystickInputValue = new Vector2(Input.GetAxis("Joy_Right_X"), Input.GetAxis("Joy_Right_X"));
-
-        leftJoystickInputAngle = Vector2.zero.AngleToInDegrees(leftJoystickInputValue);
-        rightJoystickInputAngle = Vector2.zero.AngleToInDegrees(rightJoystickInputValue);
-
-        //Left Joystick Events
-        if (leftJoystickInputValue.magnitude > joystickDetectionLimit)
-        {
-            leftJoystickActive();
-            if (!isLeftJoystickActive)
-                isLeftJoystickActive = true;
-        }
-        else
-        {
-            if (isLeftJoystickActive)
-            {
-                leftJoystickStoppedActive();
-                isLeftJoystickActive = false;
-            }
-            else
-                leftJoystickNotActive();
-        }
-
-        //Right Joystick Events
-        if (rightJoystickInputValue.magnitude > joystickDetectionLimit)
-        {
-            rightJoystickActive();
-            if (!isRightJoystickActive)
-                isRightJoystickActive = true;
-        }
-        else
-        {
-            if (isRightJoystickActive)
-            {
-                rightJoystickStoppedActive();
-                isRightJoystickActive = false;
-            }
-            else
-                rightJoystickNotActive();
-        }
-
-        //Triggers
-        leftTriggerInputValue = Input.GetAxis("lt");
-        rightTriggerInputValue = Input.GetAxis("rt");
-
-        if (leftTriggerInputValue != 0)
-            leftTriggerActive();
-        if (rightTriggerInputValue != 0)
-            rightTriggerActive();
-
-        #endregion
+        ProcessJoystickDpadTriggers();
     }
 
     void Update()
     {
+        //Done to subvert game pausing
+        if (GameStateManager.Instance.currentState == GameStates.InGame)
+            if (GameStateManager.Instance.currentInGameState == InGameStates.InInventory)
+                ProcessJoystickDpadTriggers();
+
         #region - Gamepad Buttons
 
         if (Input.GetButtonDown("a"))
@@ -402,6 +374,8 @@ public class InputManager : Singleton<InputManager>
             bButtonPressed();
         if (Input.GetButtonDown("x"))
             xButtonPressed();
+        if (Input.GetButtonUp("x"))
+            xButtonUp();
         if (Input.GetButtonDown("y"))
             yButtonPressed();
         if (Input.GetButtonDown("lb"))
@@ -416,8 +390,6 @@ public class InputManager : Singleton<InputManager>
             lsButtonPressed();
         if (Input.GetButtonDown("rs"))
             rsButtonPressed();
-        if (Input.GetButtonDown("start"))
-            startButtonPressed();
         if (Input.GetButtonDown("back"))
             backButtonPressed();
 

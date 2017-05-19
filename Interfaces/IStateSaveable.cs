@@ -1,6 +1,5 @@
-﻿public interface IStateSaveable
+﻿public interface IStateSaveable<T>
 {
-    string saveFilePath { get; set; }
-    void SaveState();
-    void ReloadState();
+    void SaveState(string filePath);
+    T GetState(string filePath);
 }
