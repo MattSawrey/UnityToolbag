@@ -98,6 +98,11 @@ public class InputManager : Singleton<InputManager>
 
     #region - Keyboard Input Vars
 
+    public Vector2 keyboardArrowInput;
+
+    public static event InputManagement arrowKeysActive = delegate { };
+    public static event InputManagement arrowKeysStoppedActive = delegate { };
+
     public static event InputManagement wKeyPressed = delegate { };
     public static event InputManagement aKeyPressed = delegate { };
     public static event InputManagement sKeyPressed = delegate { };
@@ -147,6 +152,8 @@ public class InputManager : Singleton<InputManager>
         leftJoystickLeftPressed += () => Debug.Log("Left Joystick Left");
         leftJoystickRightPressed += () => Debug.Log("Right Joystick Left");
     }
+
+    #endregion
 
     private void ProcessJoystickDpadTriggers()
     {
@@ -256,8 +263,6 @@ public class InputManager : Singleton<InputManager>
         #endregion
     }
 
-    #endregion
-
     void Awake()
     {
         if (showInputDebug)
@@ -268,14 +273,39 @@ public class InputManager : Singleton<InputManager>
     {
         #region - Keyboard Events
 
+        keyboardArrowInput = Vector2.zero;
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
             upKeyPressed();
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
             downKeyPressed();
+        }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
             leftKeyPressed();
+        }
         if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
             rightKeyPressed();
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+            keyboardArrowInput += new Vector2(0f, 1f);
+        if (Input.GetKey(KeyCode.DownArrow))
+            keyboardArrowInput += new Vector2(0f, -1f);
+        if (Input.GetKey(KeyCode.LeftArrow))
+            keyboardArrowInput += new Vector2(-1f, 0f);
+        if (Input.GetKey(KeyCode.RightArrow))
+            keyboardArrowInput += new Vector2(1f, 0f);
+
+        if (keyboardArrowInput != Vector2.zero)
+            arrowKeysActive();
+        else
+            arrowKeysStoppedActive();
+
         if (Input.GetKeyDown(KeyCode.W))
             wKeyPressed();
         if (Input.GetKeyDown(KeyCode.A))
