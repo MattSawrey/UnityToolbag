@@ -99,6 +99,7 @@ public class InputManager : Singleton<InputManager>
     #region - Keyboard Input Vars
 
     public Vector2 keyboardArrowInput;
+    private Vector2 previousKeyboardArrowInput;
 
     public static event InputManagement arrowKeysActive = delegate { };
     public static event InputManagement arrowKeysStoppedActive = delegate { };
@@ -273,8 +274,6 @@ public class InputManager : Singleton<InputManager>
     {
         #region - Keyboard Events
 
-        keyboardArrowInput = Vector2.zero;
-
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             upKeyPressed();
@@ -292,6 +291,8 @@ public class InputManager : Singleton<InputManager>
             rightKeyPressed();
         }
 
+        keyboardArrowInput = Vector2.zero;
+
         if (Input.GetKey(KeyCode.UpArrow))
             keyboardArrowInput += new Vector2(0f, 1f);
         if (Input.GetKey(KeyCode.DownArrow))
@@ -304,7 +305,14 @@ public class InputManager : Singleton<InputManager>
         if (keyboardArrowInput != Vector2.zero)
             arrowKeysActive();
         else
-            arrowKeysStoppedActive();
+        {
+            if (previousKeyboardArrowInput != Vector2.zero)
+            {
+                arrowKeysStoppedActive();
+            }
+        }
+
+        previousKeyboardArrowInput = keyboardArrowInput;
 
         if (Input.GetKeyDown(KeyCode.W))
             wKeyPressed();

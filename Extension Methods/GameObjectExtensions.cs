@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 public static class GameObjectExtensions
 {
@@ -9,7 +10,7 @@ public static class GameObjectExtensions
         return (gameObject.GetComponent<T>() != null);
     }
 
-	public static T[] GetComponentsInChildrenWithTag<T>(this GameObject gameObject, string tag)
+    public static T[] GetComponentsInChildrenWithTag<T>(this GameObject gameObject, string tag)
 		where T: Component
 	{
 		List<T> results = new List<T>();
