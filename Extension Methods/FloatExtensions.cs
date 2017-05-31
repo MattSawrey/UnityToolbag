@@ -13,6 +13,16 @@ public static class FloatExtensions
         return Mathf.Round(value * roundingFactor) / roundingFactor;
     }
 
+    public static float RoundToNearest(this float value, float nearestValue)
+    {
+        float diff = value % nearestValue;
+        Debug.Log(diff);
+        if (diff < nearestValue/2f)
+            return value - diff;
+        else
+            return value + nearestValue - diff;
+    }
+
     public static float PercentageOf(this float value, float pcOfValue)
     {
         return ((pcOfValue - (pcOfValue - value)) / pcOfValue) * 100f;
