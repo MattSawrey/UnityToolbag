@@ -27,6 +27,11 @@ public static class Vector2Extensions
         return new Vector3(vector.x, vector.y, z);
     }
 
+    public static Vector2 SnapToNearest(this Vector2 value, float snapToValue)
+    {
+        return new Vector2(value.x.RoundToNearest(snapToValue), value.y.RoundToNearest(snapToValue));
+    }
+
     public static float AngleToVectorInRads(this Vector2 vector, Vector2 vectorTo)
     {
         return Mathf.Atan2(vectorTo.y - vector.y, vectorTo.x - vector.x);

@@ -16,11 +16,17 @@ public static class FloatExtensions
     public static float RoundToNearest(this float value, float nearestValue)
     {
         float diff = value % nearestValue;
-        Debug.Log(diff);
+
+        float result = 0f;
+
         if (diff < nearestValue/2f)
-            return value - diff;
+            result = value - diff;
         else
-            return value + nearestValue - diff;
+            result = value + nearestValue - diff;
+
+        Debug.Log(value + ", " + result);
+
+        return result;
     }
 
     public static float PercentageOf(this float value, float pcOfValue)
