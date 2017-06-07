@@ -19,12 +19,10 @@ public static class FloatExtensions
 
         float result = 0f;
 
-        if (diff < nearestValue/2f)
+        if (diff < nearestValue / 2f)
             result = value - diff;
         else
             result = value + nearestValue - diff;
-
-        Debug.Log(value + ", " + result);
 
         return result;
     }
