@@ -22,7 +22,7 @@ public class MyTransformInspector : Editor
             }
             if (GUILayout.Button("Snap To 0.5"))
             {
-                transform.position = new Vector3(transform.position.x.RoundToNearest(0.5f), transform.position.y.RoundToNearest(0.5f), transform.position.z.RoundToNearest(0.5f));
+                transform.position = new Vector3(transform.position.x.RoundToNearest(0.5f), transform.position.y.RoundToNearest(0.5f), transform.position.z);
             }
         }
         GUILayout.EndHorizontal();
