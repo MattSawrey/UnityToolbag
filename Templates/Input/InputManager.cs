@@ -6,7 +6,6 @@
 public class InputManager : Singleton<InputManager>
 {
     public bool showInputDebug;
-
     [Range(0.02f, 1f)]
     public float joystickDetectionLimit;
 
@@ -114,6 +113,10 @@ public class InputManager : Singleton<InputManager>
     public static event InputManagement downKeyPressed = delegate { };
     public static event InputManagement spaceKeyPressed = delegate { };
     public static event InputManagement enterKeyPressed = delegate { };
+    public static event InputManagement lShiftKeyPressed = delegate { };
+    public static event InputManagement rShiftKeyPressed = delegate { };
+    public static event InputManagement escKeyPressed = delegate { };
+    public static event InputManagement delKeyPressed = delegate { };
 
     public static event InputManagement wKeyHeld = delegate { };
     public static event InputManagement aKeyHeld = delegate { };
@@ -125,6 +128,25 @@ public class InputManager : Singleton<InputManager>
     public static event InputManagement downKeyHeld = delegate { };
     public static event InputManagement spaceKeyHeld = delegate { };
     public static event InputManagement enterKeyHeld = delegate { };
+    public static event InputManagement lShiftKeyHeld = delegate { };
+    public static event InputManagement rShiftKeyHeld = delegate { };
+    public static event InputManagement escKeyHeld = delegate { };
+    public static event InputManagement delKeyHeld = delegate { };
+
+    public static event InputManagement wKeyUp = delegate { };
+    public static event InputManagement aKeyUp = delegate { };
+    public static event InputManagement sKeyUp = delegate { };
+    public static event InputManagement dKeyUp = delegate { };
+    public static event InputManagement upKeyUp = delegate { };
+    public static event InputManagement leftKeyUp = delegate { };
+    public static event InputManagement rightKeyUp = delegate { };
+    public static event InputManagement downKeyUp = delegate { };
+    public static event InputManagement spaceKeyUp = delegate { };
+    public static event InputManagement enterKeyUp = delegate { };
+    public static event InputManagement lShiftKeyUp = delegate { };
+    public static event InputManagement rShiftKeyUp = delegate { };
+    public static event InputManagement escKeyUp = delegate { };
+    public static event InputManagement delKeyUp = delegate { };
 
     #endregion
 
@@ -156,7 +178,7 @@ public class InputManager : Singleton<InputManager>
 
     #endregion
 
-    private void ProcessJoystickDpadTriggers()
+    private void ProcessGamepadInput()
     {
         #region - Gamepad Joystick, Dpad and Triggers
 
@@ -290,16 +312,32 @@ public class InputManager : Singleton<InputManager>
         {
             rightKeyPressed();
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            wKeyPressed();
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            aKeyPressed();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            sKeyPressed();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            dKeyPressed();
+        }
 
         keyboardArrowInput = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             keyboardArrowInput += new Vector2(0f, 1f);
-        if (Input.GetKey(KeyCode.DownArrow))
-            keyboardArrowInput += new Vector2(0f, -1f);
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             keyboardArrowInput += new Vector2(-1f, 0f);
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            keyboardArrowInput += new Vector2(0f, -1f);
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             keyboardArrowInput += new Vector2(1f, 0f);
 
         if (keyboardArrowInput != Vector2.zero)
@@ -394,7 +432,7 @@ public class InputManager : Singleton<InputManager>
 
         #endregion
 
-        ProcessJoystickDpadTriggers();
+        ProcessGamepadInput();
     }
 
     void Update()
@@ -402,7 +440,7 @@ public class InputManager : Singleton<InputManager>
         //Done to subvert game pausing
         if (GameStateManager.Instance.currentState == GameStates.InGame)
             if (GameStateManager.Instance.currentInGameState == InGameStates.InInventory)
-                ProcessJoystickDpadTriggers();
+                ProcessGamepadInput();
 
         #region - Gamepad Buttons
 
