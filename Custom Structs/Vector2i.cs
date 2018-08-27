@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 
 public struct Vector2i
 {
