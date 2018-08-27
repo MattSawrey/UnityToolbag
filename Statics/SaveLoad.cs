@@ -14,13 +14,15 @@ public static class SaveLoad
 
     public static void SaveToText(this object obj, string filePath, bool createFileIfNotExist)
     {
-        if (!File.Exists(filePath))
+        var path = gameBaseDirectory + filePath;
+        Debug.Log(path);        
+        if (!File.Exists(path))
             if (createFileIfNotExist)
-                CreateFile(filePath);
+                CreateFile(path);
             else
                 throw new Exception("Trying to write to a file that does not exist");
 
-        using (StreamWriter sw = new StreamWriter(filePath))
+        using (StreamWriter sw = new StreamWriter(path))
         {
             sw.WriteLine(obj.ToString());
         }
@@ -28,10 +30,12 @@ public static class SaveLoad
 
     public static string LoadFromText(string filePath)
     {
-        if (!File.Exists(filePath))
+        var path = gameBaseDirectory + filePath;
+        Debug.Log(path);
+        if (!File.Exists(path))
             throw new Exception("Trying to load file that cannot be found");
 
-        using (StreamReader sr = new StreamReader(filePath))
+        using (StreamReader sr = new StreamReader(path))
         {
             return sr.ReadToEnd();
         }

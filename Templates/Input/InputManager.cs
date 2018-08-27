@@ -443,9 +443,9 @@ public class InputManager : Singleton<InputManager>
     void Update()
     {
         //Done to subvert game pausing
-        if (GameStateManager.Instance.currentState == GameStates.InGame)
-            if (GameStateManager.Instance.currentInGameState == InGameStates.InInventory)
-                ProcessGamepadInput();
+        // if (GameStateManager.Instance.currentState == GameStates.InGame)
+        //     if (GameStateManager.Instance.currentInGameState == InGameStates.InInventory)
+        //         ProcessGamepadInput();
 
         #region - Gamepad Buttons
 
