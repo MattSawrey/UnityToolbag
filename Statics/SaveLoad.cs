@@ -10,7 +10,6 @@ using System.Xml.Serialization;
 /// </summary>
 public static class SaveLoad
 {
-    //Testing commit of submodule
     public static string gameBaseDirectory = Application.persistentDataPath + Path.DirectorySeparatorChar;
 
     public static void SaveToText(this object obj, string filePath, bool createFileIfNotExist)
