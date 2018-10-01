@@ -10,19 +10,18 @@ using System.Xml.Serialization;
 /// </summary>
 public static class SaveLoad
 {
+    //Testing commit of submodule
     public static string gameBaseDirectory = Application.persistentDataPath + Path.DirectorySeparatorChar;
 
     public static void SaveToText(this object obj, string filePath, bool createFileIfNotExist)
     {
-        var path = gameBaseDirectory + filePath;
-        Debug.Log(path);        
-        if (!File.Exists(path))
+        if (!File.Exists(filePath))
             if (createFileIfNotExist)
-                CreateFile(path);
+                CreateFile(filePath);
             else
                 throw new Exception("Trying to write to a file that does not exist");
 
-        using (StreamWriter sw = new StreamWriter(path))
+        using (StreamWriter sw = new StreamWriter(filePath))
         {
             sw.WriteLine(obj.ToString());
         }
@@ -30,12 +29,10 @@ public static class SaveLoad
 
     public static string LoadFromText(string filePath)
     {
-        var path = gameBaseDirectory + filePath;
-        Debug.Log(path);
-        if (!File.Exists(path))
+        if (!File.Exists(filePath))
             throw new Exception("Trying to load file that cannot be found");
 
-        using (StreamReader sr = new StreamReader(path))
+        using (StreamReader sr = new StreamReader(filePath))
         {
             return sr.ReadToEnd();
         }
