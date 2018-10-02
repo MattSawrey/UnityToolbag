@@ -9,8 +9,8 @@ public static class StringExtensions
 		List<char> nonBlankChars = new List<char>();
 
 		char blank = ' ';
-
-        for(int i=0; i<characters.Length; i++)
+		int numChars = characters.Length;
+        for(int i=0; i < numChars; i++)
             if (characters[i] != blank)
                 nonBlankChars.Add(characters[i]);
 
