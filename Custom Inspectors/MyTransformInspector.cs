@@ -20,6 +20,10 @@ public class MyTransformInspector : Editor
             {
                 transform.position = new Vector3(transform.position.x.RoundTo(0), transform.position.y.RoundTo(0), transform.position.z.RoundTo(0));
             }
+            if (GUILayout.Button("Snap To Int 2D"))
+            {
+                transform.position = new Vector3(transform.position.x.RoundTo(0), transform.position.y.RoundTo(0), transform.position.z);
+            }
             if (GUILayout.Button("Snap To 0.5"))
             {
                 transform.position = new Vector3(transform.position.x.RoundToNearest(0.5f), transform.position.y.RoundToNearest(0.5f), transform.position.z);
