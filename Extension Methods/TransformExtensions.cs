@@ -50,9 +50,7 @@ public static class TransformExtensions
         //Remove the base object
         rigidBodies.Remove(transform.GetComponent<Rigidbody>());
 
-        Debug.Log(rigidBodies.Count);
-
-        //Calculate everythinig neccassary to apply the correct force to each object, then apply it
+        //Calculate everything neccassary to apply the correct force to each object, then apply it
         for (int i = 0; i < rigidBodies.Count; i++)
         {
             distanceToTransform = Mathf.Abs(Vector3.Distance(transform.position, rigidBodies[i].gameObject.transform.position));

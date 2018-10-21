@@ -25,12 +25,6 @@ public class SpeedLimiter2D : MonoBehaviour
             float speedDifference = (currentSpeed - maxSpeed)/currentSpeed;
             Vector2 brakeForce = -rigidBody.velocity*speedDifference;
             rigidBody.AddForce(brakeForce*dampeningFactor);
-
-
-            //float newSpeed = Vector2.SqrMagnitude(rigidBody.velocity);
-            //Debug.Log("Old Speed: " + currentSpeed + ", New Speed: " + newSpeed);
-            //Debug.Log("Old Velocity: " + rigidBody.velocity + ", Brake Force: " + brakeForce);
-            //Debug.Log(currentSpeed);
         }
     }
 
