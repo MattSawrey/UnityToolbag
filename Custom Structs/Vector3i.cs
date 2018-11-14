@@ -18,6 +18,7 @@ public struct Vector3i
     public static Vector3i Down() { return new Vector3i(0, -1, 0); }
     public static Vector3i Forwards() { return new Vector3i(0, 0, 1); }
     public static Vector3i Backwards() { return new Vector3i(0, 0, -1); }
+    public int SumOfValues() { return (x * y * z); }
 
     //Operator overloading:
     public static Vector3i operator +(Vector3i x, Vector3i y) { return new Vector3i(x.x + y.x, x.y + y.y, x.z + y.z); }
