@@ -46,7 +46,7 @@ public class Vector3iDrawer : PropertyDrawer
 
         position = EditorGUI.PrefixLabel(position, label);
 
-        float labelWidth = 14f;
+        float labelWidth = 12f;
         int numberOfFields = 3;
         float fieldWidth = ((position.width - (labelWidth * numberOfFields)) / numberOfFields);
         float posx = position.x;

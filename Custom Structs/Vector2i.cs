@@ -33,7 +33,7 @@ public struct Vector2i
 }
 
 [CustomPropertyDrawer(typeof(Vector2i))]
-public class Vector2iDrawer : PropertyDrawer 
+public class Vector2iDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -42,7 +42,7 @@ public class Vector2iDrawer : PropertyDrawer
 
         position = EditorGUI.PrefixLabel(position, label);
 
-        float labelWidth = 14f;
+        float labelWidth = 12f;
         int numberOfFields = 2;
         float fieldWidth = ((position.width - (labelWidth * numberOfFields)) / numberOfFields);
         float posx = position.x;

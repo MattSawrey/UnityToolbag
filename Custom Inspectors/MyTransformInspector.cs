@@ -4,11 +4,14 @@ using UnityEditor;
 [CustomEditor(typeof(Transform), true)]
 public class MyTransformInspector : Editor
 {
+    Transform transform;
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        if(transform == null)
+            transform = (Transform) target;
 
-        Transform transform = (Transform) target;
+        base.OnInspectorGUI();
 
         GUILayout.BeginHorizontal();
         {
