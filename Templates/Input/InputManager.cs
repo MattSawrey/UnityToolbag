@@ -295,6 +295,55 @@ public class InputManager : Singleton<InputManager>
 
     void FixedUpdate()
     {
+        //Input events that subsequently affect updating physics objects (movements), should be done in fixedupdate as physics is updated on a fixed timestep
+        if (Input.GetKey(KeyCode.UpArrow))
+            upKeyHeld();
+        if (Input.GetKey(KeyCode.DownArrow))
+            downKeyHeld();
+        if (Input.GetKey(KeyCode.LeftArrow))
+            leftKeyHeld();
+        if (Input.GetKey(KeyCode.RightArrow))
+            rightKeyHeld();
+        if (Input.GetKey(KeyCode.W))
+            wKeyHeld();
+        if (Input.GetKey(KeyCode.A))
+            aKeyHeld();
+        if (Input.GetKey(KeyCode.S))
+            sKeyHeld();
+        if (Input.GetKey(KeyCode.D))
+            dKeyHeld();
+        if (Input.GetKey(KeyCode.Space))
+            spaceKeyHeld();
+        if (Input.GetKey(KeyCode.KeypadEnter))
+            enterKeyHeld();
+
+        keyboardArrowInput = Vector2.zero;
+
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            keyboardArrowInput += new Vector2(0f, 1f);
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            keyboardArrowInput += new Vector2(-1f, 0f);
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            keyboardArrowInput += new Vector2(0f, -1f);
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            keyboardArrowInput += new Vector2(1f, 0f);
+
+        if (keyboardArrowInput != Vector2.zero)
+            arrowKeysActive();
+        else
+        {
+            if (previousKeyboardArrowInput != Vector2.zero)
+            {
+                arrowKeysStoppedActive();
+            }
+        }
+
+        previousKeyboardArrowInput = keyboardArrowInput;
+    }
+
+    void Update()
+    {
+        //Input events that happen singularly should be done in update as checking for them in fixed update can miss inputs
         #region - Keyboard Events
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -334,29 +383,6 @@ public class InputManager : Singleton<InputManager>
             eKeyPressed();
         }
 
-        keyboardArrowInput = Vector2.zero;
-
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            keyboardArrowInput += new Vector2(0f, 1f);
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            keyboardArrowInput += new Vector2(-1f, 0f);
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            keyboardArrowInput += new Vector2(0f, -1f);
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            keyboardArrowInput += new Vector2(1f, 0f);
-
-        if (keyboardArrowInput != Vector2.zero)
-            arrowKeysActive();
-        else
-        {
-            if (previousKeyboardArrowInput != Vector2.zero)
-            {
-                arrowKeysStoppedActive();
-            }
-        }
-
-        previousKeyboardArrowInput = keyboardArrowInput;
-
         if (Input.GetKeyDown(KeyCode.W))
             wKeyPressed();
         if (Input.GetKeyDown(KeyCode.A))
@@ -369,27 +395,6 @@ public class InputManager : Singleton<InputManager>
             spaceKeyPressed();
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
             enterKeyPressed();
-
-        if (Input.GetKey(KeyCode.UpArrow))
-            upKeyHeld();
-        if (Input.GetKey(KeyCode.DownArrow))
-            downKeyHeld();
-        if (Input.GetKey(KeyCode.LeftArrow))
-            leftKeyHeld();
-        if (Input.GetKey(KeyCode.RightArrow))
-            rightKeyHeld();
-        if (Input.GetKey(KeyCode.W))
-            wKeyHeld();
-        if (Input.GetKey(KeyCode.A))
-            aKeyHeld();
-        if (Input.GetKey(KeyCode.S))
-            sKeyHeld();
-        if (Input.GetKey(KeyCode.D))
-            dKeyHeld();
-        if (Input.GetKey(KeyCode.Space))
-            spaceKeyHeld();
-        if (Input.GetKey(KeyCode.KeypadEnter))
-            enterKeyHeld();
 
         #endregion
 
@@ -438,10 +443,9 @@ public class InputManager : Singleton<InputManager>
         #endregion
 
         ProcessGamepadInput();
-    }
 
-    void Update()
-    {
+        //////////////////////////////////
+
         //Done to subvert game pausing
         // if (GameStateManager.Instance.currentState == GameStates.InGame)
         //     if (GameStateManager.Instance.currentInGameState == InGameStates.InInventory)
