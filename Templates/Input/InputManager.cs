@@ -219,7 +219,7 @@ public class InputManager : Singleton<InputManager>
 
         //Joysticks
         leftJoystickInputValue = new Vector2(Input.GetAxis("Joy_Left_X"), Input.GetAxis("Joy_Left_Y"));
-        rightJoystickInputValue = new Vector2(Input.GetAxis("Joy_Right_X"), Input.GetAxis("Joy_Right_X"));
+        rightJoystickInputValue = new Vector2(Input.GetAxis("Joy_Right_X"), Input.GetAxis("Joy_Right_Y"));
 
         leftJoystickInputAngle = Vector2.zero.AngleToInDegrees(leftJoystickInputValue);
         rightJoystickInputAngle = Vector2.zero.AngleToInDegrees(rightJoystickInputValue);
