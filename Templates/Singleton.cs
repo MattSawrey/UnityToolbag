@@ -3,7 +3,7 @@
 /// <summary>
 /// Enforces the presence of only a single instance of a Monobehaviour derived class at runtime and allows access to the class through the Instance property
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">Any Monobehaviour derived class</typeparam>
 public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
     private static T instance { get; set; }
