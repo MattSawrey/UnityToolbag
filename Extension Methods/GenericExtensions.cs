@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public static class GenericExtensions
 {
@@ -25,16 +23,26 @@ public static class GenericExtensions
 			else
 			{
 				if(minDiff == diff)
-				{
 					closestValue = collection[i];
-				}
 				else
-				{
 					closestValue = collection[i - 1];
-				}
 				break;
 			}
 		}
 		return closestValue;
+	}
+
+	public static int ValueUpper(this int[] collection, int targetValue)
+	{
+		collection.OrderBy(x => x);
+		int closestValue = collection[0];
+		for(int i = 0; i < collection.Length; i++)
+		{
+			if(targetValue == collection[i])
+				return collection [i];
+			else if(targetValue > collection[i])
+				return collection[i+1];
+		}
+		throw new Exception("targetValue is greater than the largest collection value");
 	}
 }
