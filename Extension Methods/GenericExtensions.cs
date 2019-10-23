@@ -38,10 +38,8 @@ public static class GenericExtensions
 		int closestValue = collection[0];
 		for(int i = 0; i < collection.Length; i++)
 		{
-			if(targetValue == collection[i])
+			if(targetValue <= collection[i])
 				return collection [i];
-			else if(targetValue > collection[i])
-				return collection[i+1];
 		}
 		throw new Exception("targetValue is greater than the largest collection value");
 	}
