@@ -108,6 +108,7 @@ public class InputManager : Singleton<InputManager>
     public static event InputManagement sKeyPressed = delegate { };
     public static event InputManagement dKeyPressed = delegate { };
     public static event InputManagement eKeyPressed = delegate { };
+    public static event InputManagement rKeyPressed = delegate { };
     public static event InputManagement upKeyPressed = delegate { };
     public static event InputManagement leftKeyPressed = delegate { };
     public static event InputManagement rightKeyPressed = delegate { };
@@ -381,6 +382,10 @@ public class InputManager : Singleton<InputManager>
         if (Input.GetKeyDown(KeyCode.E))
         {
             eKeyPressed();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rKeyPressed();
         }
 
         if (Input.GetKeyDown(KeyCode.W))
