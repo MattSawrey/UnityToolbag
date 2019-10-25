@@ -27,23 +27,24 @@ public static class FloatExtensions
         return result;
     }
 
-    public static float PercentageOf(this float value, float pcOfValue)
-    {
-        return ((pcOfValue - (pcOfValue - value)) / pcOfValue) * 100f;
-    }
-
     public static float PercentageOf(this float value, float pcOfValue, int numDecimalPoints)
     {
         return value.PercentageOf(pcOfValue).RoundTo(numDecimalPoints);
     }
 
+    public static float PercentageOf(this float value, float pcOfValue)
+    {
+        return ((pcOfValue - (pcOfValue - value)) / pcOfValue) * 100f;
+    }
+
     //Snaps the float value to the nearest number that is divisible by the provided divisible value
     public static float GetNearestWholeMultipleOf(this float value, float multipleOfValue)
     {
-        var output = Mathf.Round(value / multipleOfValue);
-        if (output == 0 && value > 0) output += 1;
-        output *= multipleOfValue;
+        float roundedToInt = Mathf.Round(value / multipleOfValue);
+        if (roundedToInt == 0 && value > 0) 
+            roundedToInt += 1;
+        roundedToInt *= multipleOfValue;
 
-        return output;
+        return roundedToInt;
     }
 }
