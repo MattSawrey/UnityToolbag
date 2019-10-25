@@ -40,11 +40,6 @@ public static class FloatExtensions
     //Snaps the float value to the nearest number that is divisible by the provided divisible value
     public static float GetNearestWholeMultipleOf(this float value, float multipleOfValue)
     {
-        float roundedToInt = Mathf.Round(value / multipleOfValue);
-        if (roundedToInt == 0 && value > 0) 
-            roundedToInt += 1;
-        roundedToInt *= multipleOfValue;
-
-        return roundedToInt;
+        return Mathf.Round(value / multipleOfValue) * multipleOfValue;
     }
 }
