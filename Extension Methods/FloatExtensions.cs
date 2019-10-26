@@ -16,7 +16,6 @@ public static class FloatExtensions
     public static float RoundToNearest(this float value, float nearestValue)
     {
         float diff = value % nearestValue;
-
         float result = 0f;
 
         if (diff < nearestValue / 2f)

@@ -22,6 +22,7 @@ public class EditorBase : Editor
 	public virtual void OnSceneGUI()
     {
         currentEvent = Event.current;
+		int controlID = GUIUtility.GetControlID(FocusType.Passive);
 
         // Get mouse position as world point and snap to grid point
         mousePosition = currentEvent.mousePosition;
