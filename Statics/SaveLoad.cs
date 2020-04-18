@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-//TODO - look into creating files of native data type - I.E. json saves as Json
 /// <summary>
 /// Static helper for Serializing and Deserializing data to and from txt, xml, json and bin.
 /// </summary>

@@ -41,4 +41,28 @@ public static class FloatExtensions
     {
         return Mathf.Round(value / multipleOfValue) * multipleOfValue;
     }
+
+    public static float GetNearestWholeMultipleOfWithOffset(this float value, float multipleOfValue, float offsetValue)
+    {
+        return (Mathf.Round((value - offsetValue) / multipleOfValue) * multipleOfValue) + offsetValue;
+    }
+
+    // FInds the index of the nearest value in the given arrays
+    public static int BinarySearchNearestIndex(this float[] a, float item)
+    {
+        int first = 0;
+        int last = a.Length - 1;
+        int mid = 0;
+        do
+        {
+            mid = first + (last - first) / 2;
+            if (item > a[mid])
+                first = mid + 1;
+            else
+                last = mid - 1;
+            if (a[mid] == item)
+                return mid;
+        } while (first <= last);
+        return mid;
+    }
 }

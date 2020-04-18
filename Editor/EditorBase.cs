@@ -18,13 +18,12 @@ public class EditorBase : Editor
     {
         base.OnInspectorGUI();
 	}
-
+    
 	public virtual void OnSceneGUI()
     {
         currentEvent = Event.current;
-		int controlID = GUIUtility.GetControlID(FocusType.Passive);
 
-        // Get mouse position as world point and snap to grid point
+        // Get mouse position as world point and snap to grid point 
         mousePosition = currentEvent.mousePosition;
         mousePosition = Camera.current.ScreenToWorldPoint(mousePosition);
         mousePosition.y = -mousePosition.y; // Y axis is inverted from Screen to World points. (Annoying)
@@ -36,8 +35,18 @@ public class EditorBase : Editor
 		// Debug.Log(mousePositionReal);
 
 		if (currentEvent.type == EventType.mouseDown && currentEvent.button == 0) // Left-Click
-			mouseDownPosition = mousePositionReal;
+        {
+            mouseDownPosition = mousePositionReal;
+            // int blocking_ix = GUIUtility.GetControlID(FocusType.Passive);
+            // UnityEditor.HandleUtility.AddDefaultControl(blocking_ix);
+            GUIUtility.hotControl = 0;
+        }
 		if (currentEvent.type == EventType.mouseDrag && currentEvent.button == 0) // Left-Drag
+        {
 			mouseDraggedPosition = mousePositionReal;
+            // int blocking_ix = GUIUtility.GetControlID(FocusType.Passive);
+            // UnityEditor.HandleUtility.AddDefaultControl(blocking_ix);
+            GUIUtility.hotControl = 0;
+        }
 	}
 }

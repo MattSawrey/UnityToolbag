@@ -49,4 +49,13 @@ public static class Vector2Extensions
             sumOfVectors += vectors[i];
         return sumOfVectors / vectors.Length;
     }
+
+    public static Vector2 GetNearestWholeMultipleOfWithOffset(this Vector2 value, float multipleOfValue, float offsetValue)
+    {
+        return new Vector2
+        (
+            value.x.GetNearestWholeMultipleOfWithOffset(multipleOfValue, offsetValue),
+            value.y.GetNearestWholeMultipleOfWithOffset(multipleOfValue, offsetValue)            
+        );
+    }
 }

@@ -296,7 +296,7 @@ public class InputManager : Singleton<InputManager>
 
     void FixedUpdate()
     {
-        //Input events that subsequently affect updating physics objects (movements), should be done in fixedupdate as physics is updated on a fixed timestep
+        //Input events that subsequently affect updating physics objects (movements), should be done in fixedupdate as physics is updated on a fixed timestep (assuming a stable framerate)
         if (Input.GetKey(KeyCode.UpArrow))
             upKeyHeld();
         if (Input.GetKey(KeyCode.DownArrow))

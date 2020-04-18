@@ -43,4 +43,12 @@ public static class GenericExtensions
 		}
 		throw new Exception("targetValue is greater than the largest collection value");
 	}
+
+	public static bool AreAllValuesEqual <T>(this T[] array)
+    {
+        for(int i = 1; i < array.Length; i++)
+            if(array[0].Equals(array[i]))
+                return false;
+        return true;
+    }
 }
